@@ -1,22 +1,25 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Steering/Avoidance", fileName = "Avoidance")]
-public class AvoidanceBehaviour : SteeringBehaviour
+namespace Steering
 {
-    [SerializeField] private float viewDistance = 1f;
-
-    internal override Vector3 Calculate(SteeringAgent _agent)
+    [CreateAssetMenu(menuName = "Steering/Avoidance", fileName = "Avoidance")]
+    public class AvoidanceBehaviour : SteeringBehaviour
     {
-        Vector3 force = _agent.CurrentForce;
+        [SerializeField] private float viewDistance = 1f;
 
-        foreach(Vector3 direction in SteeringAgentHelper.directions)
+        internal override Vector3 Calculate(SteeringAgent _agent)
         {
-            if(Physics.Raycast(_agent.Position, direction, out RaycastHit hit, viewDistance))
-            {
-                force += Vector3.Lerp(_agent.Forward, hit.normal, .25f);
-            }
-        }
+            Vector3 force = _agent.CurrentForce;
 
-        return force;
+            foreach(Vector3 direction in SteeringAgentHelper.DirectionsInCone(_agent))
+            {
+                if(Physics.Raycast(_agent.Position, direction, out RaycastHit hit, viewDistance))
+                {
+                    force += Vector3.Lerp(_agent.Forward, hit.normal, .25f);
+                }
+            }
+
+            return force;
+        }
     }
 }

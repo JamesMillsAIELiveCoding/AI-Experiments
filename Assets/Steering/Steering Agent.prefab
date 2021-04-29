@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4988385340547203201}
   - component: {fileID: 4988385340547203206}
-  - component: {fileID: 4988385340547203207}
   m_Layer: 0
   m_Name: Steering Agent
   m_TagString: Untagged
@@ -46,21 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smoothing: 0.05
+  viewAngle: 180
   renderer: {fileID: 4988385341924497327}
   behaviour: {fileID: 11400000, guid: 8e7aff693b209424194c732de5f03bee, type: 2}
---- !u!135 &4988385340547203207
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4988385340547203205}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4988385341924497325
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,6 +59,7 @@ GameObject:
   - component: {fileID: 4988385341924497326}
   - component: {fileID: 4988385341924497320}
   - component: {fileID: 4988385341924497327}
+  - component: {fileID: 2120247504096788448}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -142,3 +130,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2120247504096788448
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4988385341924497325}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3613567641014311022, guid: 7d9d38afa0c4a884e8aa7a67b7548db0, type: 3}

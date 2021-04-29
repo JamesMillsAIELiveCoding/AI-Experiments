@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public abstract class SteeringBehaviour : ScriptableObject
+namespace Steering
 {
-    public void UpdateAgent(SteeringAgent _agent)
+    public abstract class SteeringBehaviour : ScriptableObject
     {
-        Vector3 force = Calculate(_agent).normalized;
-        _agent.UpdateCurrentForce(force);
+        public void UpdateAgent(SteeringAgent _agent)
+        {
+            Vector3 force = Calculate(_agent).normalized;
+            _agent.UpdateCurrentForce(force);
 
-        Quaternion rotation = Quaternion.Slerp(
-            _agent.Rotation, 
-            Quaternion.LookRotation(_agent.CurrentForce != Vector3.zero ? _agent.CurrentForce : _agent.Forward), 
-            Time.deltaTime);
+            Quaternion rotation = Quaternion.Slerp(
+                _agent.Rotation,
+                Quaternion.LookRotation(_agent.CurrentForce != Vector3.zero ? _agent.CurrentForce : _agent.Forward),
+                Time.deltaTime);
 
-        Vector3 movement = (_agent.Forward + force * _agent.Speed) * Time.deltaTime;
-        Vector3 position = Vector3.SmoothDamp(_agent.Position, movement + _agent.Position, ref _agent.velocity, _agent.MovementSmoothing);
+            Vector3 movement = (_agent.Forward + force * _agent.Speed) * Time.deltaTime;
+            Vector3 position = Vector3.SmoothDamp(_agent.Position, movement + _agent.Position, ref _agent.velocity, _agent.MovementSmoothing);
 
-        _agent.ApplyPosAndRot(position, rotation);
+            _agent.ApplyPosAndRot(position, rotation);
+        }
+
+        internal abstract Vector3 Calculate(SteeringAgent _agent);
     }
-
-    internal abstract Vector3 Calculate(SteeringAgent _agent);
 }

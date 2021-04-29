@@ -1,29 +1,54 @@
 using UnityEngine;
 
-public static class SteeringAgentHelper
+using System.Collections.Generic;
+
+namespace Steering
 {
-    const int viewDirections = 300;
-
-    public static readonly Vector3[] directions;
-
-    static SteeringAgentHelper()
+    public static class SteeringAgentHelper
     {
-        directions = new Vector3[viewDirections];
+        const int viewDirections = 100;
 
-        float goldenRatio = (1 + Mathf.Sqrt(5)) / 2;
-        float angleIncrement = Mathf.PI * 2 * goldenRatio;
+        public static readonly Vector3[] directions;
+        private static Vector3[] coneDirections;
 
-        for(int i = 0; i < viewDirections; i++)
+        public static Vector3[] DirectionsInCone(SteeringAgent _agent)
         {
-            float t = (float)i / viewDirections;
-            float inclination = Mathf.Acos(1 - 2 * t);
-            float azimuth = angleIncrement * i;
+            if(coneDirections == null)
+            {
+                List<Vector3> newDirections = new List<Vector3>();
+                foreach(Vector3 direction in directions)
+                {
+                    if(Vector3.Angle(direction, _agent.Forward) < _agent.ViewAngle)
+                    {
+                        newDirections.Add(direction);
+                    }
+                }
 
-            float x = Mathf.Sin(inclination) * Mathf.Cos(azimuth);
-            float y = Mathf.Sin(inclination) * Mathf.Sin(azimuth);
-            float z = Mathf.Cos(inclination);
+                coneDirections = newDirections.ToArray();
+            }
 
-            directions[i] = new Vector3(x, y, z);
+            return coneDirections;
+        }
+
+        static SteeringAgentHelper()
+        {
+            directions = new Vector3[viewDirections];
+
+            float goldenRatio = (1 + Mathf.Sqrt(5)) / 2;
+            float angleIncrement = Mathf.PI * 2 * goldenRatio;
+
+            for(int i = 0; i < viewDirections; i++)
+            {
+                float t = (float)i / viewDirections;
+                float inclination = Mathf.Acos(1 - 2 * t);
+                float azimuth = angleIncrement * i;
+
+                float x = Mathf.Sin(inclination) * Mathf.Cos(azimuth);
+                float y = Mathf.Sin(inclination) * Mathf.Sin(azimuth);
+                float z = Mathf.Cos(inclination);
+
+                directions[i] = new Vector3(x, y, z);
+            }
         }
     }
 }

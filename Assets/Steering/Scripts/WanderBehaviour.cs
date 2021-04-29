@@ -1,19 +1,22 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Steering/Wander", fileName = "Wander")]
-public class WanderBehaviour : SteeringBehaviour
+namespace Steering
 {
-    [SerializeField] private float jitter = .05f;
-
-    internal override Vector3 Calculate(SteeringAgent _agent)
+    [CreateAssetMenu(menuName = "Steering/Wander", fileName = "Wander")]
+    public class WanderBehaviour : SteeringBehaviour
     {
-        Vector3 force = _agent.CurrentForce;
+        [SerializeField] private float jitter = .05f;
 
-        Vector2 offset = new Vector2(Random.Range(-jitter, jitter), Random.Range(-jitter, jitter));
+        internal override Vector3 Calculate(SteeringAgent _agent)
+        {
+            Vector3 force = _agent.CurrentForce;
 
-        force += _agent.Right * offset.x;
-        force += _agent.Up * offset.y;
+            Vector2 offset = new Vector2(Random.Range(-jitter, jitter), Random.Range(-jitter, jitter));
 
-        return force;
+            force += _agent.Right * offset.x;
+            force += _agent.Up * offset.y;
+
+            return force;
+        }
     }
 }
