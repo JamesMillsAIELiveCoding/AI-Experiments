@@ -1,0 +1,50 @@
+// This specifies what the main function of the compute shader will be called
+#pragma kernel Compute
+
+// PI doesn't exist so we need to define it
+#define PI 3.14159265358979323846
+
+// This is the HLSL equivalent of the ComputeBuffer in Unity
+// The type needs to be specified
+RWStructuredBuffer<float3> _Positions;
+
+// Shader property like on normal shaders
+uint _Resolution;
+float _Step, _Time;
+
+// Converts the thread ID into UV co-ordinates if we know the step size
+float2 GetUV(uint3 _id) {
+	return (_id.xy + 0.5) * _Step - 1.0;
+}
+
+// Sets the position into the 1D array from the 2D Id
+void SetPosition(uint3 _id, float3 _position) {
+	// This prevents the id being outside of the resolution since the ID
+	// is a multiple of 8
+	if(_id.x < _Resolution && _id.y < _Resolution) {
+		_Positions[_id.x + _id.y * _Resolution] = _position;
+	}
+}
+
+float3 Donut(float2 _uv, float _t) {
+	float r1 = .7 + .1 * sin(PI * (6 * _uv.x + .5 * _t));
+	float r2 = .15 + .05 * sin(PI * (8 * _uv.x + 4 * _uv.y + 2 * _t));
+	float s = r1 + r2 * cos(PI * _uv.y);
+	float3 pos;
+
+	pos.x = s * sin(PI * _uv.x);
+	pos.y = r2 * sin(PI * _uv.y); 
+	pos.z = s * cos(PI * _uv.x);
+
+	return pos;
+}
+
+// This dictates how many threads the compute shader will run on.
+// it multiplies all 3 numbers... 8x8 is the standard
+[numthreads(8,8,1)]
+// The id is the id of the thread being called. the semantic is required to 
+// indicate this is the thread id
+void Compute(uint3 _id : SV_DispatchThreadID) {
+	float2 uv = GetUV(_id);
+	SetPosition(_id, Donut(uv, _Time));
+}
