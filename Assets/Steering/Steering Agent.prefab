@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smoothing: 0.05
-  viewAngle: 180
+  viewAngle: 90
   renderer: {fileID: 4988385341924497327}
   behaviour: {fileID: 11400000, guid: 8e7aff693b209424194c732de5f03bee, type: 2}
 --- !u!1 &4988385341924497325
@@ -108,7 +108,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b2dd0a247de838847ba0ddf65d7b5684, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39edf6cccf318f458029018fabfbbdf, type: 3}
   m_Name: Avoidance
   m_EditorClassIdentifier: 
+  viewDistance: 1
+  normalRatio: 0.41

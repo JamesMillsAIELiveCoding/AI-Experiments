@@ -21,7 +21,7 @@ namespace Steering
                 boid.transform.position = pos;
                 boid.transform.forward = Random.insideUnitSphere;
 
-                boid.SetColor(color);
+                boid.SetColor(Random.ColorHSV(0, 1, 1, 1, 1, 1));
             }
         }
 
